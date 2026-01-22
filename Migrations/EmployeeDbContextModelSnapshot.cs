@@ -9,7 +9,7 @@ using RESTAPI_Employee_Management_System.Models;
 
 namespace RESTAPI_Employee_Management_System.Migrations
 {
-    [DbContext(typeof(EmployeeDbContext))]
+    [DbContext(typeof(EmsdbContext))]
     partial class EmployeeDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

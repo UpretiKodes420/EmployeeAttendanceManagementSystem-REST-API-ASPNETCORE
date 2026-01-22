@@ -1,6 +1,7 @@
 using RESTAPI_Employee_Management_System.Models;
 using RESTAPI_Employee_Management_System.Repositories;
 using RESTAPI_Employee_Management_System.DTOModels.EmployeeDTOs;
+using Microsoft.AspNetCore.JsonPatch;
 namespace RESTAPI_Employee_Management_System.Services.EmployeeServices
 {
 
@@ -49,11 +50,21 @@ namespace RESTAPI_Employee_Management_System.Services.EmployeeServices
             
         }
 
-        public async Task<bool> UpdateAsync(EmployeeRequestDTO entity)
+        public async Task<bool> UpdateAsync(int id ,JsonPatchDocument<EmployeeRequestDTO> PatchDoc)
         {
-           var Employee= _mapper.ToEntity(entity);
-          return await  _repo.UpdateEmployeeAsync(Employee);
-            
+           var EmployeeById= await _repo.GetByIdAsync(id);
+            if (EmployeeById == null)
+            {
+                return false;
+            }
+            var EmpReqDto = _mapper.FromEntityTORequest(EmployeeById);
+            PatchDoc.ApplyTo(EmpReqDto);
+        return true && await _repo.UpdateEmployeeAsync(id,  _mapper.FromRequestToEntity(EmpReqDto)); 
+
+
+
+
+
         }
     }
 }

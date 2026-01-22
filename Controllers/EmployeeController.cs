@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RESTAPI_Employee_Management_System.Services.EmployeeServices;
 using RESTAPI_Employee_Management_System.DTOModels.EmployeeDTOs;
+using Microsoft.AspNetCore.JsonPatch;
 namespace RESTAPI_Employee_Management_System.Controllers
 
 {
@@ -43,14 +44,19 @@ namespace RESTAPI_Employee_Management_System.Controllers
            return Ok(await _services.CreateAsync(employeeDTO)); 
         }
 
-        [HttpPut,Route("update")]
-        public async Task<ActionResult> UpdateEmployee(EmployeeRequestDTO employeeDTO)
+        [HttpPatch,Route("update/{id}")]
+        public async Task<ActionResult> UpdateEmployee([FromRoute]int id,[FromBody]JsonPatchDocument<EmployeeRequestDTO> PatchDoc)
         {
-            if(await _services.UpdateAsync(employeeDTO))
+            if (PatchDoc == null)
             {
-                return Ok(new {message="Fields updated sucessfully" });
+                return BadRequest();
             }
-           return BadRequest(new {message="something went wrong "});
+           if( await _services.UpdateAsync(id, PatchDoc))
+            {
+                return Ok(new {message="sucessfull patch applied"});
+            }
+           return NotFound();
+          
 
         }
         [HttpDelete,Route("delete/{id}")]

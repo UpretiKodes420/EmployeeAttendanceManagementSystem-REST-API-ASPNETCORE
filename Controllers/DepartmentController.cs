@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RESTAPI_Employee_Management_System.Services.DepartmentServices;
+using Microsoft.AspNetCore.JsonPatch;
 using RESTAPI_Employee_Management_System.DTOModels;
+using Azure;
 namespace RESTAPI_Employee_Management_System.Controllers
 {
     [ApiController]
@@ -50,6 +52,25 @@ namespace RESTAPI_Employee_Management_System.Controllers
                 return Ok(new { message = "Department Deleted Sucessfully" });
             }
             return BadRequest(new {message="there was a problem deleting the department"});
+        }
+        [HttpPatch,Route("department/update/{id}")]
+
+        public async Task<ActionResult> UpdateDepartment([FromRoute] int id, [FromBody]JsonPatchDocument<DepartmentRequestDTO> PatchDoc) 
+        {
+            if(PatchDoc == null)
+            {
+                return BadRequest(new { message = "Invalid patch Request" });
+            }
+            if (!await _departmentServices.UpdateAsync(id, PatchDoc))
+            {
+                return NotFound();
+            }
+                
+                
+                return Ok(new { message = "Department Updated sucessfully" });
+
+            
+
         }
     }
 }

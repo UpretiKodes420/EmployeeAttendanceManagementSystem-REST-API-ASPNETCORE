@@ -7,7 +7,7 @@ namespace RESTAPI_Employee_Management_System.Repositories
       Task<IEnumerable<Employee>> GetAllAsync();
       Task<Employee?> GetByIdAsync(int Id);
         Task SetEmployeeAsync(Employee employeeObject);
-        Task<bool> UpdateEmployeeAsync(Employee employeeObjectWithUpdateParams);
+        Task<bool> UpdateEmployeeAsync(int id,Employee employeeObjectWithUpdateParams);
         Task<bool> DeleteEmployeeAsync(int id);
     }
 }

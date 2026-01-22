@@ -8,8 +8,8 @@ namespace RESTAPI_Employee_Management_System.Repositories
     public class EmployeeRepository : IEmployeeRepository
 
     {
-        private readonly EmployeeDbContext _context;
-        public EmployeeRepository(EmployeeDbContext context )
+        private readonly EmsdbContext _context;
+        public EmployeeRepository(EmsdbContext context )
         {
             _context = context;
         }
@@ -38,9 +38,9 @@ namespace RESTAPI_Employee_Management_System.Repositories
             
         }
 
-        public async Task<bool> UpdateEmployeeAsync(Employee employeeObjectWithUpdateParams)//Update employee
+        public async Task<bool> UpdateEmployeeAsync(int id,Employee employeeObjectWithUpdateParams)//Update employee
         {
-            var employee = await _context.Employees.FindAsync(employeeObjectWithUpdateParams.Id);
+            var employee = await _context.Employees.FindAsync(id);
             if (employee == null)
             {
                 return false;// maaf garnu hola tapaile samparka khojnu vayeko vayeko employee vetiyena :(
@@ -50,7 +50,6 @@ namespace RESTAPI_Employee_Management_System.Repositories
             employee.ContactAddress = employeeObjectWithUpdateParams.ContactAddress;
             employee.EmailAddress = employeeObjectWithUpdateParams.ContactAddress;
             employee.Gender = employeeObjectWithUpdateParams.Gender;
-            employee.Department = employeeObjectWithUpdateParams.Department;
             employee.DepartmentId = employeeObjectWithUpdateParams.DepartmentId;
 
             await _context.SaveChangesAsync();

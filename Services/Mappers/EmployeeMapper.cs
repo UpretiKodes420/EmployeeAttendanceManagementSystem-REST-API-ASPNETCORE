@@ -5,7 +5,7 @@ namespace RESTAPI_Employee_Management_System.Services
 {
     public class EmployeeMapper
     {
-        // Entity → Response DTO
+        // Entity → ResponseDTO
         public EmployeeResponseDTO ToResponseDto(Employee employee)
         {
             return new EmployeeResponseDTO
@@ -21,7 +21,7 @@ namespace RESTAPI_Employee_Management_System.Services
             };
         }
 
-        // Create DTO → Entity
+        // Create RequestDTO =>Entity
         public Employee ToEntity(EmployeeRequestDTO dto)
         {
             return new Employee
@@ -51,6 +51,21 @@ namespace RESTAPI_Employee_Management_System.Services
             };
         }
 
+        
+        public EmployeeRequestDTO FromEntityTORequest(Employee dto)
+        {
+            return new EmployeeRequestDTO
+            {
+                FirstName = dto.FirstName,
+                LastName = dto.LastName,
+                Gender = dto.Gender,
+                ContactAddress = dto.ContactAddress,
+                EmailAddress = dto.EmailAddress,
+                DepartmentId = dto.DepartmentId
+
+
+            };
+        }
        
        
     }

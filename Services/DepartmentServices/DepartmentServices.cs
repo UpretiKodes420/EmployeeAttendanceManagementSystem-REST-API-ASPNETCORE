@@ -1,4 +1,5 @@
-﻿using RESTAPI_Employee_Management_System.DTOModels;
+﻿using Microsoft.AspNetCore.JsonPatch;
+using RESTAPI_Employee_Management_System.DTOModels;
 using RESTAPI_Employee_Management_System.DTOModels.DepartmentDTOs;
 using RESTAPI_Employee_Management_System.Models;
 using RESTAPI_Employee_Management_System.Repositories;
@@ -52,9 +53,21 @@ namespace RESTAPI_Employee_Management_System.Services.DepartmentServices
             
         }
 
-        public Task<bool> UpdateAsync(DepartmentRequestDTO entity)
+        public async Task<bool> UpdateAsync(int id,JsonPatchDocument<DepartmentRequestDTO> PatchDoc)
         {
-            throw new NotImplementedException();
+            var Department=await _repository.GetByIdAsync(id);
+            if (Department == null)
+            {
+                return false;
+            }
+           var DepartmentReqDto= _mapper.ToRequestDto(Department);
+            PatchDoc.ApplyTo(DepartmentReqDto);
+            var DepartmentObject = _mapper.ToEntity(DepartmentReqDto);
+          
+
+           return true&& await _repository.UpdateAsync(id, DepartmentObject);
+
         }
+
     }
 }

@@ -23,5 +23,13 @@ namespace RESTAPI_Employee_Management_System.Services.Mappers
 
             };
         }
+
+        public DepartmentRequestDTO ToRequestDto(Department Departmentobject)
+        {
+            return new DepartmentRequestDTO
+            {
+                Name = Departmentobject.DepartmentName
+            };
+        }
     }
 }

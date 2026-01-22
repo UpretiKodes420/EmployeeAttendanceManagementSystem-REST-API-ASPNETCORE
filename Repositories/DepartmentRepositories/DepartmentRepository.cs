@@ -8,8 +8,8 @@ namespace RESTAPI_Employee_Management_System.Repositories.DepartmentRepositories
 {
     public class DepartmentRepository : GenericCrud<Department>
     {
-        private readonly EmployeeDbContext _DepartmentContext;
-        public DepartmentRepository(EmployeeDbContext DepartmentContext) { 
+        private readonly EmsdbContext _DepartmentContext;
+        public DepartmentRepository(EmsdbContext DepartmentContext) { 
             _DepartmentContext = DepartmentContext;
         }
         public async Task<bool> DeleteAsync(int id)
@@ -52,6 +52,7 @@ namespace RESTAPI_Employee_Management_System.Repositories.DepartmentRepositories
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex);
                 return false;
             }
             return false;
@@ -59,14 +60,16 @@ namespace RESTAPI_Employee_Management_System.Repositories.DepartmentRepositories
 
         }   
 
-        public async Task<bool> UpdateAsync(Department TObjectWithUpdateParams)
+        public async Task<bool> UpdateAsync(int id,Department TObjectWithUpdateParams)
         {
-            var updatable = await _DepartmentContext.Departments.FindAsync(TObjectWithUpdateParams.DepartmentId);
+            var updatable = await _DepartmentContext.Departments.FindAsync(id);
             if(updatable == null)
             {
                 return false;
             }
             updatable.DepartmentName = TObjectWithUpdateParams.DepartmentName;
+            _DepartmentContext.SaveChanges();
+
             return true;
         }
 

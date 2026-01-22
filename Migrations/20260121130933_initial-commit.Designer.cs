@@ -10,7 +10,7 @@ using RESTAPI_Employee_Management_System.Models;
 
 namespace RESTAPI_Employee_Management_System.Migrations
 {
-    [DbContext(typeof(EmployeeDbContext))]
+    [DbContext(typeof(EmsdbContext))]
     [Migration("20260121130933_initial-commit")]
     partial class initialcommit
     {

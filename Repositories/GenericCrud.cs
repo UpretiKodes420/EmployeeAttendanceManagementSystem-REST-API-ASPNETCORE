@@ -1,4 +1,6 @@
-﻿using RESTAPI_Employee_Management_System.Models;
+﻿using Microsoft.AspNetCore.JsonPatch;
+using RESTAPI_Employee_Management_System.DTOModels;
+using RESTAPI_Employee_Management_System.Models;
 
 namespace RESTAPI_Employee_Management_System.Repositories
 {
@@ -7,7 +9,7 @@ namespace RESTAPI_Employee_Management_System.Repositories
         Task<IEnumerable<T>> GetAllAsync();
         Task<T?> GetByIdAsync(int Id);
         Task<bool> SetAsync(T TObject);
-        Task<bool> UpdateAsync(T TObjectWithUpdateParams);
+        Task<bool> UpdateAsync(int id, Department DepartmentObject);
         Task<bool> DeleteAsync(int id);
     }
 }
