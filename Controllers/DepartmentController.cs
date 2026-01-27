@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using RESTAPI_Employee_Management_System.Services.DepartmentServices;
+using Services.DepartmentServices;
 using Microsoft.AspNetCore.JsonPatch;
-using RESTAPI_Employee_Management_System.DTOModels;
-using Azure;
+using Services.DTOModels.DepartmentDTOs;
+using Microsoft.IdentityModel.Tokens;
 namespace RESTAPI_Employee_Management_System.Controllers
 {
     [ApiController]
@@ -36,7 +36,7 @@ namespace RESTAPI_Employee_Management_System.Controllers
         [HttpPost,Route("department/register")]
         public async Task<ActionResult> CreateDepartment(DepartmentRequestDTO dto)
         {
-
+            
             if (await _departmentServices.CreateAsync(dto))
             {
                 return Ok(new { message = "Department Registerd Sucessfully\n" });

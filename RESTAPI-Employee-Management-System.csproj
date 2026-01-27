@@ -8,10 +8,22 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="DTOModels\NewFolder\**" />
-    <Content Remove="DTOModels\NewFolder\**" />
-    <EmbeddedResource Remove="DTOModels\NewFolder\**" />
-    <None Remove="DTOModels\NewFolder\**" />
+    <Compile Remove="Migrations\**" />
+    <Compile Remove="Models\**" />
+    <Compile Remove="Repositories\**" />
+    <Compile Remove="Services\**" />
+    <Content Remove="Migrations\**" />
+    <Content Remove="Models\**" />
+    <Content Remove="Repositories\**" />
+    <Content Remove="Services\**" />
+    <EmbeddedResource Remove="Migrations\**" />
+    <EmbeddedResource Remove="Models\**" />
+    <EmbeddedResource Remove="Repositories\**" />
+    <EmbeddedResource Remove="Services\**" />
+    <None Remove="Migrations\**" />
+    <None Remove="Models\**" />
+    <None Remove="Repositories\**" />
+    <None Remove="Services\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -29,6 +41,11 @@
     
     <PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="10.1.0" />
     
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Domain\Domain.csproj" />
+    <ProjectReference Include="..\Services\Services.csproj" />
   </ItemGroup>
 
 </Project>

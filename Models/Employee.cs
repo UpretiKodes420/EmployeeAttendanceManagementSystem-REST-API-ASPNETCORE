@@ -22,4 +22,6 @@ public partial class Employee
     public virtual ICollection<Attendance> Attendances { get; set; } = new List<Attendance>();
 
     public virtual Department Department { get; set; } = null!;
+
+    public virtual ICollection<Leave> Leaves { get; set; } = new List<Leave>();
 }

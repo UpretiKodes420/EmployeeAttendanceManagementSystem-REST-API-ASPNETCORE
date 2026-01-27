@@ -48,7 +48,7 @@ namespace RESTAPI_Employee_Management_System.Repositories
             employee.FirstName = employeeObjectWithUpdateParams.FirstName;
             employee.LastName = employeeObjectWithUpdateParams.LastName;
             employee.ContactAddress = employeeObjectWithUpdateParams.ContactAddress;
-            employee.EmailAddress = employeeObjectWithUpdateParams.ContactAddress;
+            employee.EmailAddress = employeeObjectWithUpdateParams.EmailAddress;
             employee.Gender = employeeObjectWithUpdateParams.Gender;
             employee.DepartmentId = employeeObjectWithUpdateParams.DepartmentId;
 

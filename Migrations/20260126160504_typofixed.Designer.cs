@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RESTAPI_Employee_Management_System.Models;
 
@@ -11,9 +12,11 @@ using RESTAPI_Employee_Management_System.Models;
 namespace RESTAPI_Employee_Management_System.Migrations
 {
     [DbContext(typeof(EmsdbContext))]
-    partial class EmployeeDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260126160504_typofixed")]
+    partial class typofixed
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -112,18 +115,15 @@ namespace RESTAPI_Employee_Management_System.Migrations
                     b.Property<int>("EmployeeId")
                         .HasColumnType("int");
 
-                    b.Property<DateOnly>("FromDate")
+                    b.Property<string>("FromDate")
+                        .IsRequired()
                         .HasMaxLength(10)
-                        .HasColumnType("date")
+                        .HasColumnType("nchar(10)")
                         .IsFixedLength();
 
-                    b.Property<string>("Reason")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateOnly>("ToDate")
+                    b.Property<string>("ToDate")
                         .HasMaxLength(10)
-                        .HasColumnType("date")
+                        .HasColumnType("nchar(10)")
                         .IsFixedLength();
 
                     b.HasKey("LeaveId");

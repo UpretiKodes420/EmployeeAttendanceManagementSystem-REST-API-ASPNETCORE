@@ -1,3 +1,5 @@
 <Solution>
+  <Project Path="../Domain/Domain.csproj" Id="61439d72-9e3c-4693-8474-e993742f239f" />
+  <Project Path="../Services/Services.csproj" Id="66077fd9-e0f6-47a7-ba6a-ad6cad030dcf" />
   <Project Path="RESTAPI-Employee-Management-System.csproj" />
 </Solution>

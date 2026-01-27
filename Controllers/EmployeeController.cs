@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using RESTAPI_Employee_Management_System.Services.EmployeeServices;
-using RESTAPI_Employee_Management_System.DTOModels.EmployeeDTOs;
+using Services.DTOModels.EmployeeDTOs;
 using Microsoft.AspNetCore.JsonPatch;
 namespace RESTAPI_Employee_Management_System.Controllers
 
@@ -41,7 +40,15 @@ namespace RESTAPI_Employee_Management_System.Controllers
         [HttpPost,Route("register")]
         public async Task<ActionResult> CreateEmployee(EmployeeRequestDTO employeeDTO)
         {
-           return Ok(await _services.CreateAsync(employeeDTO)); 
+            var Response = await _services.CreateAsync(employeeDTO);
+            if (Response)
+            {
+                return Ok(new {message="registerd sucessfully"});
+            }
+            else
+            {
+                return BadRequest();
+            }
         }
 
         [HttpPatch,Route("update/{id}")]

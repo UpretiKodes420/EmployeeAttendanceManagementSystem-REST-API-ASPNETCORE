@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
-using RESTAPI_Employee_Management_System.Models;
 
 namespace RESTAPI_Employee_Management_System.Models;
 
@@ -22,13 +21,17 @@ public partial class EmsdbContext : DbContext
 
     public virtual DbSet<Employee> Employees { get; set; }
 
+    public virtual DbSet<Leave> Leaves { get; set; }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder.UseSqlServer("Name=ConnectionStrings:DefaultConnection");
+        => optionsBuilder.UseSqlServer("Data Source=(localdb)\\MSSQLLocalDB;Database=EMSDB;Trusted_Connection=True;MultipleActiveResultSets=true");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Attendance>(entity =>
         {
+            entity.HasIndex(e => e.EmployeeId, "IX_Attendances_EmployeeId");
+
             entity.Property(e => e.AttendanceId).ValueGeneratedNever();
 
             entity.HasOne(d => d.Employee).WithMany(p => p.Attendances)
@@ -54,6 +57,24 @@ public partial class EmsdbContext : DbContext
             entity.HasOne(d => d.Department).WithMany(p => p.Employees)
                 .HasForeignKey(d => d.DepartmentId)
                 .OnDelete(DeleteBehavior.ClientSetNull);
+        });
+
+        modelBuilder.Entity<Leave>(entity =>
+        {
+            entity.HasKey(e => e.LeaveId);
+
+            entity.Property(e => e.LeaveId).ValueGeneratedNever();
+            entity.Property(e => e.FromDate)
+                .HasMaxLength(10)
+                .IsFixedLength();
+            entity.Property(e => e.ToDate)
+                .HasMaxLength(10)
+                .IsFixedLength();
+
+            entity.HasOne(d => d.Employee).WithMany(p => p.Leaves)
+                .HasForeignKey(d => d.EmployeeId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Leaves_Employees");
         });
 
         OnModelCreatingPartial(modelBuilder);

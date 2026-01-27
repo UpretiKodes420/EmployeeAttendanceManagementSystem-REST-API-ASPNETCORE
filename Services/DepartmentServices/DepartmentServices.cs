@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.JsonPatch;
+﻿using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.JsonPatch;
 using RESTAPI_Employee_Management_System.DTOModels;
 using RESTAPI_Employee_Management_System.DTOModels.DepartmentDTOs;
 using RESTAPI_Employee_Management_System.Models;
@@ -61,7 +62,16 @@ namespace RESTAPI_Employee_Management_System.Services.DepartmentServices
                 return false;
             }
            var DepartmentReqDto= _mapper.ToRequestDto(Department);
-            PatchDoc.ApplyTo(DepartmentReqDto);
+            try
+            {
+                PatchDoc.ApplyTo(DepartmentReqDto);
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex);
+                return false;
+            }
+            
             var DepartmentObject = _mapper.ToEntity(DepartmentReqDto);
           
 

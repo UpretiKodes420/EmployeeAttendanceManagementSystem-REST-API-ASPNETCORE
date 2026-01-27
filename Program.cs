@@ -1,13 +1,15 @@
+using Domain.Models;
+using Domain.Repositories;
+using Domain.Repositories.AttendanceRepository;
+using Domain.Repositories.DepartmentRepositories;
+using Domain.Repositories.EmployeeRepositories;
 using Microsoft.EntityFrameworkCore;
-using RESTAPI_Employee_Management_System.DTOModels.EmployeeDTOs;
-using RESTAPI_Employee_Management_System.Models;
-using RESTAPI_Employee_Management_System.Repositories;
-using RESTAPI_Employee_Management_System.Repositories.DepartmentRepositories;
-using RESTAPI_Employee_Management_System.Services;
-using RESTAPI_Employee_Management_System.Services.DepartmentServices;
-using RESTAPI_Employee_Management_System.Services.EmployeeServices;
-using RESTAPI_Employee_Management_System.Services.Mappers;
-
+using Microsoft.Extensions.Options;
+using Services.AttendanceServices;
+using Services.DepartmentServices;
+using Services.DTOModels.EmployeeDTOs;
+using Services.EmployeeServices;
+using Services.Mappers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,17 +22,26 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddOpenApi();
 builder.Services.AddDbContext<EmsdbContext>((options) =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
+       sql=>sql.MigrationsAssembly("Domain") );
+    options.LogTo(Console.WriteLine, LogLevel.Information);
+
 });
 builder.Services.AddSwaggerGenNewtonsoftSupport();
 
 
 builder.Services.AddScoped<IEmployeeRepository,EmployeeRepository>();
 builder.Services.AddScoped<GenericCrud<Department>, DepartmentRepository>();
+builder.Services.AddScoped<IAttendanceRepository, AttendanceRepository>();
+
 builder.Services.AddScoped<EmployeeMapper>();
 builder.Services.AddScoped<DepartmentMapper>();
+builder.Services.AddScoped<AttendanceMapper>();
 builder.Services.AddScoped<GenericCRUDServices<EmployeeResponseDTO>,EmployeeServices>();
 builder.Services.AddScoped<IDepartmentServices, DepartmentServices>();
+builder.Services.AddScoped<IAttendanceServices, AttendanceServices>();
+builder.Services.AddScoped<IAttendanceServices, AttendanceServices>();
+
 builder.Services.AddControllers()
     .AddNewtonsoftJson();
 

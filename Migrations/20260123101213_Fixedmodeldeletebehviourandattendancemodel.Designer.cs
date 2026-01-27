@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RESTAPI_Employee_Management_System.Models;
 
@@ -11,9 +12,11 @@ using RESTAPI_Employee_Management_System.Models;
 namespace RESTAPI_Employee_Management_System.Migrations
 {
     [DbContext(typeof(EmsdbContext))]
-    partial class EmployeeDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260123101213_Fixedmodeldeletebehviourandattendancemodel")]
+    partial class Fixedmodeldeletebehviourandattendancemodel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -38,7 +41,7 @@ namespace RESTAPI_Employee_Management_System.Migrations
 
                     b.HasKey("AttendanceId");
 
-                    b.HasIndex(new[] { "EmployeeId" }, "IX_Attendances_EmployeeId");
+                    b.HasIndex("EmployeeId");
 
                     b.ToTable("Attendances");
                 });
@@ -104,35 +107,6 @@ namespace RESTAPI_Employee_Management_System.Migrations
                     b.ToTable("Employees");
                 });
 
-            modelBuilder.Entity("RESTAPI_Employee_Management_System.Models.Leave", b =>
-                {
-                    b.Property<int>("LeaveId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("EmployeeId")
-                        .HasColumnType("int");
-
-                    b.Property<DateOnly>("FromDate")
-                        .HasMaxLength(10)
-                        .HasColumnType("date")
-                        .IsFixedLength();
-
-                    b.Property<string>("Reason")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateOnly>("ToDate")
-                        .HasMaxLength(10)
-                        .HasColumnType("date")
-                        .IsFixedLength();
-
-                    b.HasKey("LeaveId");
-
-                    b.HasIndex("EmployeeId");
-
-                    b.ToTable("Leaves");
-                });
-
             modelBuilder.Entity("RESTAPI_Employee_Management_System.Models.Attendance", b =>
                 {
                     b.HasOne("RESTAPI_Employee_Management_System.Models.Employee", "Employee")
@@ -155,17 +129,6 @@ namespace RESTAPI_Employee_Management_System.Migrations
                     b.Navigation("Department");
                 });
 
-            modelBuilder.Entity("RESTAPI_Employee_Management_System.Models.Leave", b =>
-                {
-                    b.HasOne("RESTAPI_Employee_Management_System.Models.Employee", "Employee")
-                        .WithMany("Leaves")
-                        .HasForeignKey("EmployeeId")
-                        .IsRequired()
-                        .HasConstraintName("FK_Leaves_Employees");
-
-                    b.Navigation("Employee");
-                });
-
             modelBuilder.Entity("RESTAPI_Employee_Management_System.Models.Department", b =>
                 {
                     b.Navigation("Employees");
@@ -174,8 +137,6 @@ namespace RESTAPI_Employee_Management_System.Migrations
             modelBuilder.Entity("RESTAPI_Employee_Management_System.Models.Employee", b =>
                 {
                     b.Navigation("Attendances");
-
-                    b.Navigation("Leaves");
                 });
 #pragma warning restore 612, 618
         }
